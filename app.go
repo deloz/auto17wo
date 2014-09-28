@@ -36,6 +36,21 @@ type MemberDay struct {
 	Data    MemberDayData
 }
 
+//{"data":{"message":{"show":"0","chance":0,"info":"7M\u6d41\u91cf"}},"message":null,"success":true}
+type RedPacketDataInfo struct {
+	Show   string
+	Chance int64
+	Info   string
+}
+type RedPacketData struct {
+	Message RedPacketDataInfo
+}
+type RedPacket struct {
+	Data    RedPacketData
+	Message string
+	Success bool
+}
+
 func login(mobile, password string, cookieJar *cookiejar.Jar) (http.Client, error) {
 	loginUrl := "http://17wo.cn/Login!process.action"
 	log.Println("loginUrl", loginUrl)
@@ -142,6 +157,20 @@ func memberDay(body []byte) {
 	log.Println("====  会员日开红包 结束 ====")
 }
 
+func flowRedPacket(body []byte) {
+	log.Println("====  流量红包 开始 ====")
+
+	var m RedPacket
+	err := json.Unmarshal(body, &m)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	log.Printf("%+v", m)
+	log.Println("====  流量红包 结束 ====")
+}
+
 func main() {
 	options := cookiejar.Options{
 		PublicSuffixList: publicsuffix.List,
@@ -173,5 +202,6 @@ func main() {
 
 	requestJson(signin, client, cookieJar, "http://17wo.cn/SignIn!checkin.action?checkIn=true&rnd=4151")
 	requestJson(memberDay, client, cookieJar, "http://17wo.cn/MemberDay!draw.action?_=1411834905292")
+	requestJson(flowRedPacket, client, cookieJar, "http://17wo.cn/FlowRedPacket!LuckDraw.action?1238")
 
 }

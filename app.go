@@ -53,7 +53,7 @@ type RedPacket struct {
 
 func login(mobile, password string, cookieJar *cookiejar.Jar) (http.Client, error) {
 	loginUrl := "http://17wo.cn/Login!process.action"
-	log.Println("loginUrl", loginUrl)
+	log.Println("登录网址 ", loginUrl)
 
 	postBody := url.Values{}
 	postBody.Set("mobile", mobile)
@@ -98,7 +98,7 @@ func login(mobile, password string, cookieJar *cookiejar.Jar) (http.Client, erro
 
 	matched, _ = regexp.MatchString(`已签到`, htmlStr)
 	if matched {
-		log.Println("已签到")
+		log.Println("**已签到过了,无需再签**")
 	}
 
 	return client, nil
@@ -187,7 +187,7 @@ func main() {
 	flag.Parse()
 
 	if *mobile == 0 || *password == "" {
-		log.Println("请使用app.go -h查看帮助")
+		log.Println("请使用 auto17wo -h 查看帮助")
 		return
 	}
 

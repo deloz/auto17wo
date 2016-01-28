@@ -1,7 +1,6 @@
 package main
 
 import (
-	"code.google.com/p/go.net/publicsuffix"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -13,6 +12,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"golang.org/x/net/publicsuffix"
 )
 
 //{"data":{"count":0,"wodou":650,"getWodou":50},"message":null,"success":true}
